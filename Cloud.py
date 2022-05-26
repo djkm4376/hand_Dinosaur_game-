@@ -8,7 +8,7 @@ class Cloud():
         self.width = self.image.get_width()
 
     def update(self):
-        self.x -= my_G_img.game_speed
+        self.x -= my_G_img.Game_speed
         if self.x < -self.width:
             self.x = my_G_img.SCREEN_WIDTH + my_G_img.random.randint(2600, 3000)
             self.y = my_G_img.random.randint(50 ,100)

@@ -4,6 +4,9 @@ import random
 
 SCREEN_HEIGHI = 600
 SCREEN_WIDTH = 1100
+Game_speed = 14
+obstacles = []
+
 
 pygame.display.set_caption("Dinosaur Game")
 SCREEN = pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHI))

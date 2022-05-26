@@ -1,75 +1,29 @@
-from my_G_img import random, pygame, SCREEN_WIDTH, SCREEN_HEIGHI, SCREEN, BACKGROUND, SMALL_CACTUS, LARGE_CACTUS, BIRD, RUNNING
+from my_G_img import random, pygame, SCREEN_WIDTH, SCREEN_HEIGHI, SCREEN, BACKGROUND, SMALL_CACTUS, LARGE_CACTUS, BIRD, RUNNING, Game_speed, obstacles
 from Dinosaur import Dinosaur
 from Cloud import Cloud
-
-
+from Other_Obstacles import SmallCactus, LargeCactus, Bird
 
 
 pygame.init() #초기화
 
 
-
-class Obstacle: #장애물
-    def __init__(self, image, type):
-        self.image = image
-        self.type = type
-        self.rect = self.image[self.type].get_rect()
-        self.rect.x = SCREEN_WIDTH
-
-    def update(self):
-        self.rect.x -= game_speed
-        if self.rect.x < -self.rect.width:
-            obstacles.pop() #리스트의 마지막 요소를 반환하고 제거한다.
-
-    def draw(self, SCREEN):
-        SCREEN.blit(self.image[self.type], self.rect)
-
-class SmallCactus(Obstacle):
-    def __init__(self, image):
-        self.type = random.randint(0, 2)
-        super().__init__(image, self.type)
-        self.rect.y = 325
-
-class LargeCactus(Obstacle):
-    def __init__(self, image):
-        self.type = random.randint(0, 2)
-        super().__init__(image, self.type)
-        self.rect.y = 300
-
-class Bird(Obstacle):
-    def __init__(self, image):
-        self.type = 0
-        super().__init__(image, self.type)
-        self.rect.y = 250
-        self.index = 0
-
-    def draw(self, SCREEN):
-        if self.index >= 9:
-            self.index = 0
-        SCREEN.blit(self.image[self.index//5], self.rect)
-        self.index += 1
-        
-
-
 def main():
-    global game_speed, x_pos_bg, y_pos_bg, points, obstacles
+    global x_pos_bg, y_pos_bg, points
     running = True
     clock = pygame.time.Clock()
     player = Dinosaur()
     cloud = Cloud()
-    game_speed = 14
     x_pos_bg = 0
     y_pos_bg = 380
     points = 0
     font = pygame.font.Font('freesansbold.ttf', 20)
-    obstacles = []
     death_count = 0
 
     def score():
-        global points, game_speed
+        global points, Game_speed
         points += 1
         if points % 100 == 0:
-            game_speed += 1
+            Game_speed += 1
         
         text = font.render("points: " + str(points), True, (0,0,0))
         textRect = text.get_rect()
@@ -86,7 +40,7 @@ def main():
             SCREEN.blit(BACKGROUND, (image_width + x_pos_bg, y_pos_bg))
             x_pos_bg = 0
 
-        x_pos_bg -= game_speed
+        x_pos_bg -= Game_speed
 
     while running:
         for event in pygame.event.get():
