@@ -1,42 +1,17 @@
-import pygame
-import os
+import my_image
 import random
 
 
-pygame.init() #초기화
+my_image.pygame.init() #초기화
 
 #전역 상수 선언
 
 SCREEN_HEIGHI = 600
 SCREEN_WIDTH = 1100
 
-pygame.display.set_caption("Dinosaur Game")
-SCREEN = pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHI))
+my_image.pygame.display.set_caption("Dinosaur Game")
+SCREEN = my_image.pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHI))
 
-
-# 이미지 연결 애니메이션 사용
-RUNNING = [pygame.image.load(os.path.join("Assets\Dino","DinoRun1.png")), 
-pygame.image.load(os.path.join("Assets\Dino","DinoRun2.png"))]
-
-JUMPING = pygame.image.load(os.path.join("Assets\Dino","DinoJump.png"))
-
-DUCKING = [pygame.image.load(os.path.join("Assets\Dino","DinoDuck1.png")), 
-pygame.image.load(os.path.join("Assets\Dino","DinoDuck2.png"))]
-
-SMALL_CACTUS = [pygame.image.load(os.path.join("Assets\Cactus","SmallCactus1.png")), 
-pygame.image.load(os.path.join("Assets\Cactus","SmallCactus2.png")),
-pygame.image.load(os.path.join("Assets\Cactus","SmallCactus3.png"))]
-
-LARGE_CACTUS = [pygame.image.load(os.path.join("Assets\Cactus","LargeCactus1.png")), 
-pygame.image.load(os.path.join("Assets\Cactus","LargeCactus2.png")),
-pygame.image.load(os.path.join("Assets\Cactus","LargeCactus3.png"))]
-
-BIRD = [pygame.image.load(os.path.join("Assets\Bird", "Bird1.png")),
-pygame.image.load(os.path.join("Assets\Bird","Bird2.png"))]
-
-CLOUD = pygame.image.load(os.path.join("Assets\Other", "Cloud.png"))
-
-BACKGROUND = pygame.image.load(os.path.join("Assets\Other", "Track.png"))
 
 class Dinosaur():
     X_POS = 80
@@ -46,9 +21,9 @@ class Dinosaur():
 
     def __init__(self):
         # 이미지 가져오기
-        self.duck_img = DUCKING
-        self.run_img = RUNNING
-        self.jump_img = JUMPING
+        self.duck_img = my_image.DUCKING
+        self.run_img = my_image.RUNNING
+        self.jump_img = my_image.JUMPING
 
         # 초기값
         self.dino_duck = False
@@ -74,15 +49,15 @@ class Dinosaur():
             self.step_index = 0
 
         #    
-        if userInput[pygame.K_UP] and not self.dino_jump:
+        if userInput[my_image.pygame.K_UP] and not self.dino_jump:
             self.dino_duck = False
             self.dino_jump = True
             self.dino_run = False
-        elif userInput[pygame.K_DOWN] and not self.dino_jump:
+        elif userInput[my_image.pygame.K_DOWN] and not self.dino_jump:
             self.dino_duck = True
             self.dino_jump = False
             self.dino_run = False
-        elif not (self.dino_jump or userInput[pygame.K_DOWN]):
+        elif not (self.dino_jump or userInput[my_image.pygame.K_DOWN]):
             self.dino_duck = False
             self.dino_jump = False
             self.dino_run = True
@@ -118,7 +93,7 @@ class Cloud():
     def __init__(self):
         self.x = SCREEN_WIDTH + random.randint(800 ,1000)
         self.y = random.randint(50, 100)
-        self.image = CLOUD
+        self.image = my_image.CLOUD
         self.width = self.image.get_width()
 
     def update(self):
@@ -175,14 +150,14 @@ class Bird(Obstacle):
 def main():
     global game_speed, x_pos_bg, y_pos_bg, points, obstacles
     running = True
-    clock = pygame.time.Clock()
+    clock = my_image.pygame.time.Clock()
     player = Dinosaur()
     cloud = Cloud()
     game_speed = 14
     x_pos_bg = 0
     y_pos_bg = 380
     points = 0
-    font = pygame.font.Font('freesansbold.ttf', 20)
+    font = my_image.pygame.font.Font('freesansbold.ttf', 20)
     obstacles = []
     death_count = 0
 
@@ -199,40 +174,40 @@ def main():
 
     def background():
         global x_pos_bg, y_pos_bg
-        image_width = BACKGROUND.get_width()
-        SCREEN.blit(BACKGROUND, (x_pos_bg, y_pos_bg))
-        SCREEN.blit(BACKGROUND, (image_width + x_pos_bg, y_pos_bg))
+        image_width = my_image.BACKGROUND.get_width()
+        SCREEN.blit(my_image.BACKGROUND, (x_pos_bg, y_pos_bg))
+        SCREEN.blit(my_image.BACKGROUND, (image_width + x_pos_bg, y_pos_bg))
 
         if x_pos_bg <= -image_width:
-            SCREEN.blit(BACKGROUND, (image_width + x_pos_bg, y_pos_bg))
+            SCREEN.blit(my_image.BACKGROUND, (image_width + x_pos_bg, y_pos_bg))
             x_pos_bg = 0
 
         x_pos_bg -= game_speed
 
     while running:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT: # X 표시를 눌러 게임 종료 시 루프 탈출
+        for event in my_image.pygame.event.get():
+            if event.type == my_image.pygame.QUIT: # X 표시를 눌러 게임 종료 시 루프 탈출
                 running = False
 
         SCREEN.fill((255,255,255))
-        userInput = pygame.key.get_pressed()
+        userInput = my_image.pygame.key.get_pressed()
 
         player.draw(SCREEN)
         player.update(userInput)
 
         if len(obstacles) == 0:
             if random.randint(0, 2) == 0:
-                obstacles.append(SmallCactus(SMALL_CACTUS))
+                obstacles.append(SmallCactus(my_image.SMALL_CACTUS))
             elif random.randint(0, 2) == 1:
-                obstacles.append(LargeCactus(LARGE_CACTUS))
+                obstacles.append(LargeCactus(my_image.LARGE_CACTUS))
             elif random.randint(0, 2) == 2:
-                obstacles.append(Bird(BIRD))
+                obstacles.append(Bird(my_image.BIRD))
 
         for obstacle in obstacles: # 리스트 요소를 반복한다.
             obstacle.draw(SCREEN)
             obstacle.update()
             if player.dino_rect.colliderect(obstacle.rect): #장애물에 부딫히면
-                pygame.time.delay(2000)
+                my_image.pygame.time.delay(2000)
                 death_count += 1
                 menu(death_count)
 
@@ -244,9 +219,9 @@ def main():
 
 
         clock.tick(30)
-        pygame.display.update()
+        my_image.pygame.display.update()
 
-    pygame.quit()
+    my_image.pygame.quit()
 
 
 def menu(death_count):
@@ -255,7 +230,7 @@ def menu(death_count):
 
     while running:
         SCREEN.fill((255,255,255))
-        font = pygame.font.Font('freesansbold.ttf', 30)
+        font = my_image.pygame.font.Font('freesansbold.ttf', 30)
 
         if death_count == 0:
             text = font.render("Press any Key to Start", True, (0, 0, 0))
@@ -269,14 +244,14 @@ def menu(death_count):
         textRect = text.get_rect()
         textRect.center = (SCREEN_WIDTH//2, SCREEN_HEIGHI//2)
         SCREEN.blit(text, textRect)
-        SCREEN.blit(RUNNING[0], (SCREEN_WIDTH//2 - 20, SCREEN_HEIGHI // 2 - 140))
-        pygame.display.update()
+        SCREEN.blit(my_image.RUNNING[0], (SCREEN_WIDTH//2 - 20, SCREEN_HEIGHI // 2 - 140))
+        my_image.pygame.display.update()
 
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT: # X 표시를 눌러 게임 종료 시 루프 탈출
+        for event in my_image.pygame.event.get():
+            if event.type == my_image.pygame.QUIT: # X 표시를 눌러 게임 종료 시 루프 탈출
                 running = False
                 
-            if event.type == pygame.KEYDOWN:
+            if event.type == my_image.pygame.KEYDOWN:
                 main()
 
 
