@@ -1,6 +1,12 @@
 import pygame
 import os
+import random
 
+SCREEN_HEIGHI = 600
+SCREEN_WIDTH = 1100
+
+pygame.display.set_caption("Dinosaur Game")
+SCREEN = pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHI))
 
 # 이미지 연결 애니메이션 사용
 RUNNING = [pygame.image.load(os.path.join("Assets\Dino","DinoRun1.png")), 
