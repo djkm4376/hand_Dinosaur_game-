@@ -1,7 +1,7 @@
 import cv2
 import mediapipe as mp
 from time import time, sleep
-from pywinauto import application 
+
 
 class Hand_Track:
 
@@ -32,22 +32,23 @@ class Hand_Track:
                     thumb = hand_landmarks.landmark[4]
                     index = hand_landmarks.landmark[8]
 
-                    diff = abs(index.x - thumb.x)
+                    # diff = abs(index.x - thumb.x)
+                    diff = thumb.y - index.y
 
                     
                     volume = int(diff * 500)
 
-                    if volume <= 8:
+                    if volume <= -2:
                         print('웅크리기')
                         
-                        
-
+                
                     elif volume <= 40:
                         print('달리기')
 
                         
-                    elif volume <= 100:
+                    elif volume > 40:
                         print('점프')
+                        
 
                     else:
                         print('error')
@@ -57,6 +58,7 @@ class Hand_Track:
                     mp_drawing.draw_landmarks(image, hand_landmarks, mp_hands.HAND_CONNECTIONS)
 
             cv2.imshow('image', image)
+
 
             if cv2.waitKey(1) == ord('q'):
                 break

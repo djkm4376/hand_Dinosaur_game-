@@ -4,6 +4,7 @@ from Cloud import Cloud
 from Other_Obstacles import SmallCactus, LargeCactus, Bird
 
 
+
 pygame.init() #초기화
 
 
