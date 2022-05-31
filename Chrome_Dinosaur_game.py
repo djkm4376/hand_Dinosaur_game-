@@ -1,9 +1,20 @@
 import my_image
 import random
 
+def crouch():
+    my_image.pygame.K_DOWN
 
 
-def game():
+def jumping():
+    my_image.pygame.K_UP
+
+def KeyV():
+    jumping()
+
+    crouch()
+
+
+def game(q):
 
     my_image.pygame.init() #초기화
 
@@ -51,15 +62,15 @@ def game():
                 self.step_index = 0
 
             #    
-            if userInput[my_image.pygame.K_UP] and not self.dino_jump:
+            if q.get()=='Jump' and not self.dino_jump:
                 self.dino_duck = False
                 self.dino_jump = True
                 self.dino_run = False
-            elif userInput[my_image.pygame.K_DOWN] and not self.dino_jump:
+            elif q.get()=='Duck' and not self.dino_jump:
                 self.dino_duck = True
                 self.dino_jump = False
                 self.dino_run = False
-            elif not (self.dino_jump or userInput[my_image.pygame.K_DOWN]):
+            elif q.get()=='Run' and not q.get()=='Duck' and not q.get()=='Jump' and not self.dino_jump:
                 self.dino_duck = False
                 self.dino_jump = False
                 self.dino_run = True
@@ -258,5 +269,3 @@ def game():
 
 
     menu(death_count=0)
-
-

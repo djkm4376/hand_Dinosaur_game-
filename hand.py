@@ -1,12 +1,11 @@
-from sre_constants import CH_LOCALE
 import cv2
 import mediapipe as mp
 from time import time, sleep
 from pywinauto import application 
-from multiprocessing import Process
+from multiprocessing import Process, Queue
 import Chrome_Dinosaur_game
 
-def Hand_Track():
+def Hand_Track(q):
     #손 마디 점찍기
     mp_drawing = mp.solutions.drawing_utils
     #손 인식
@@ -51,15 +50,15 @@ def Hand_Track():
                     #검지가 엄지밑으로
                     if volume <= -2:
                         print('웅크리기')
-                        
+                        q.put("Duck")
                     #엄지 검지 만남
                     elif volume <= 40:
                         print('달리기')
-
+                        q.put("Run")
                     #검지위로
                     elif volume > 40:
                         print('점프')
-
+                        q.put("Jump")
                     else:
                         print('error')
 
@@ -79,8 +78,9 @@ def Hand_Track():
 
 #멀티프로세스 생성자 (손,게임)
 if __name__=='__main__':
-    t1=Process(target=Hand_Track)
-    t2=Process(target=Chrome_Dinosaur_game.game)
+    q=Queue()
+    t1=Process(target=Hand_Track, args=(q,))
+    t2=Process(target=Chrome_Dinosaur_game.game, args=(q,))
     t1.start()
     t2.start()
     t1.join()
