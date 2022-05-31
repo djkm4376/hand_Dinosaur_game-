@@ -47,19 +47,19 @@ def Hand_Track(q):
 
                     #검지가 엄지밑으로
                     if not (pr < 10) and volume <= -2:
-                        print('웅크리기')
+                        # print('웅크리기')
                         q.put("Duck")
                     #엄지 검지 만남
                     elif not (pr < 10) and volume <= 60:
-                        print('달리기')
+                        # print('달리기')
                         q.put("Run")
                     #검지위로
                     elif not (pr < 10) and volume > 60:
-                        print('점프')
+                        # print('점프')
                         q.put("Jump")
                     # 시작
                     elif pr < 10:
-                        print("시작")
+                        # print("시작")
                         q.put("Start")
 
 
@@ -313,7 +313,7 @@ if __name__=='__main__':
 
             score()
 
-            clock.tick(25)
+            clock.tick(35)
             pygame.display.update()
 
 
@@ -337,14 +337,15 @@ if __name__=='__main__':
             SCREEN.blit(text, textRect)
             SCREEN.blit(RUNNING[0], (SCREEN_WIDTH // 2 - 20, SCREEN_HEIGHT // 2 - 140))
             pygame.display.update()
-            
+
+            if q.get()=="Start":
+                main()
+
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     run = False
-                if q.get()=="Start":
-                    main()
-
+                
         pygame.event.pump()
 
     menu(death_count= 0 )
