@@ -33,24 +33,34 @@ def Hand_Track(q):
                 for hand_landmarks in results.multi_hand_landmarks:
                     thumb = hand_landmarks.landmark[4]
                     index = hand_landmarks.landmark[8]
-
-                    # diff = index.y - thumb.y
+                    ring = hand_landmarks.landmark[16]
+                    plnky = hand_landmarks.landmark[20]
+                    
                     diff = thumb.y - index.y
     
                     volume = int(diff * 500)
+    
+                    end_pc = plnky.y - ring.y
+
+                    pr = int(end_pc * 500)                   
+                    
 
                     #검지가 엄지밑으로
-                    if volume <= -2:
+                    if not (pr < 10) and volume <= -2:
                         print('웅크리기')
                         q.put("Duck")
                     #엄지 검지 만남
-                    elif volume <= 40:
+                    elif not (pr < 10) and volume <= 60:
                         print('달리기')
                         q.put("Run")
                     #검지위로
-                    elif volume > 40:
+                    elif not (pr < 10) and volume > 60:
                         print('점프')
                         q.put("Jump")
+                    # 종료
+                    elif pr < 10:
+                        print("종료")
+                        q.put("Start")
 
 
                     cv2.putText(image, text='%d' %(volume), org=(10, 30),fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=1,color=255, thickness=2)
@@ -327,11 +337,14 @@ if __name__=='__main__':
             SCREEN.blit(text, textRect)
             SCREEN.blit(RUNNING[0], (SCREEN_WIDTH // 2 - 20, SCREEN_HEIGHT // 2 - 140))
             pygame.display.update()
+            
+
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     run = False
-                if event.type == pygame.KEYDOWN:
+                if q.get()=="Start":
                     main()
+
         pygame.event.pump()
 
     menu(death_count= 0 )
