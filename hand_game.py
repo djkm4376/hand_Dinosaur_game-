@@ -57,7 +57,7 @@ def Hand_Track(q):
                     elif not (pr < 10) and volume > 60:
                         print('점프')
                         q.put("Jump")
-                    # 종료
+                    # 시작
                     elif pr < 10:
                         print("시작")
                         q.put("Start")
