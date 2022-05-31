@@ -59,7 +59,7 @@ def Hand_Track(q):
                         q.put("Jump")
                     # 종료
                     elif pr < 10:
-                        print("종료")
+                        print("시작")
                         q.put("Start")
 
 
