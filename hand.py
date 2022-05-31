@@ -13,7 +13,7 @@ def Hand_Track(q):
     #카메라키기
     cap = cv2.VideoCapture(0)
 
-
+    q.put("Start")
 
     with mp_hands.Hands(
 
@@ -54,7 +54,7 @@ def Hand_Track(q):
                     #엄지 검지 만남
                     elif volume <= 40:
                         print('달리기')
-                        q.put("Run")
+                        q.put("r")
                     #검지위로
                     elif volume > 40:
                         print('점프')
@@ -72,6 +72,7 @@ def Hand_Track(q):
 
             if cv2.waitKey(1) == ord('q'):
                 break
+            
         
 
         cap.release()

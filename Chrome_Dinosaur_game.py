@@ -1,18 +1,6 @@
 import my_image
 import random
 
-def crouch():
-    my_image.pygame.K_DOWN
-
-
-def jumping():
-    my_image.pygame.K_UP
-
-def KeyV():
-    jumping()
-
-    crouch()
-
 
 def game(q):
 
@@ -50,7 +38,7 @@ def game(q):
             self.dino_rect.x = self.X_POS
             self.dino_rect.y = self.Y_POS
 
-        def update(self, userInput):
+        def update(self):
             if self.dino_duck:
                 self.duck()
             if self.dino_run:
@@ -70,7 +58,7 @@ def game(q):
                 self.dino_duck = True
                 self.dino_jump = False
                 self.dino_run = False
-            elif q.get()=='Run' and not q.get()=='Duck' and not q.get()=='Jump' and not self.dino_jump:
+            elif not (self.dino_jump or q.get()=='Duck'):
                 self.dino_duck = False
                 self.dino_jump = False
                 self.dino_run = True
@@ -203,10 +191,10 @@ def game(q):
                     running = False
 
             SCREEN.fill((255,255,255))
-            userInput = my_image.pygame.key.get_pressed()
+            
 
             player.draw(SCREEN)
-            player.update(userInput)
+            player.update()
 
             if len(obstacles) == 0:
                 if random.randint(0, 2) == 0:
@@ -264,7 +252,7 @@ def game(q):
                 if event.type == my_image.pygame.QUIT: # X 표시를 눌러 게임 종료 시 루프 탈출
                     running = False
                     
-                if event.type == my_image.pygame.KEYDOWN:
+                if q.get()=="Start":
                     main()
 
 
