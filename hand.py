@@ -9,8 +9,7 @@ class Hand_Track:
     mp_hands = mp.solutions.hands
 
     cap = cv2.VideoCapture(0)
-
-
+    # 수정
 
     with mp_hands.Hands(
         max_num_hands=1,
