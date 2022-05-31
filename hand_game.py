@@ -321,7 +321,7 @@ if __name__=='__main__':
 
             score()
 
-            clock.tick(120)
+            clock.tick(25)
             pygame.display.update()
 
 
