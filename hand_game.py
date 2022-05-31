@@ -3,19 +3,16 @@ import os
 import random
 import cv2
 import mediapipe as mp
-from time import time, sleep
+from time import sleep
 from multiprocessing import Process, Queue
 
 
 def Hand_Track(q):
 
-
     mp_drawing = mp.solutions.drawing_utils
     mp_hands = mp.solutions.hands
 
     cap = cv2.VideoCapture(0)
-
-
 
     with mp_hands.Hands(
         max_num_hands=1,
@@ -70,17 +67,10 @@ def Hand_Track(q):
         cap.release()
 
 
-
 if __name__=='__main__':
-    # parent_conn, child_conn = Pipe()
-    # t1=Process(target=Hand_Track, args=(child_conn,))
-    # t1.start()
     q=Queue()
     t1=Process(target=Hand_Track, args=(q,))
     t1.start()
-
-
-
 
     pygame.init()
 
@@ -108,8 +98,6 @@ if __name__=='__main__':
     CLOUD = pygame.image.load(os.path.join("Assets/Other", "Cloud.png"))
 
     BG = pygame.image.load(os.path.join("Assets/Other", "Track.png"))
-    K_up = 1073741905
-    K_down = 1073741906
 
 
     class Dinosaur:
@@ -117,9 +105,6 @@ if __name__=='__main__':
         Y_POS = 310
         Y_POS_DUCK = 340
         JUMP_VEL = 8.5
-        
-     
-
 
         def __init__(self):
             self.duck_img = DUCKING
@@ -148,7 +133,7 @@ if __name__=='__main__':
             if self.step_index >= 10:
                 self.step_index = 0
 
-            #
+            # 조종하는 부분
             if q.get()=='Jump' and not self.dino_jump:
                 self.dino_duck = False
                 self.dino_jump = True
@@ -290,10 +275,7 @@ if __name__=='__main__':
                 if event.type == pygame.QUIT:
                     run = False
 
-            SCREEN.fill((255, 255, 255))
-            # userInput = pygame.key.get_pressed()
-            # userInput = int(parent_conn.recv())
-            
+            SCREEN.fill((255, 255, 255))            
             
             player.draw(SCREEN)
             player.update()
@@ -354,17 +336,3 @@ if __name__=='__main__':
 
     menu(death_count= 0 )
     t1.join()
-        
-    
-
-
-
-# if __name__=='__main__':
-#     t1=Process(target=Hand_Track)
-#     t2=Process(target=game)
-#     t1.start()
-#     t2.start()
-#     t1.join()
-#     t2.join()
-
-# if __name__=='__main__':
